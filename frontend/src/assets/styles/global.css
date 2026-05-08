@@ -1,0 +1,48 @@
+:root {
+  --brand-color: #2f855a;
+  --brand-light: #edf7f1;
+  --page-bg: #f5f7fa;
+  --card-bg: #ffffff;
+  --text-main: #1f2937;
+  --text-sub: #6b7280;
+  --danger: #e05353;
+  --border-color: #e5e7eb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  background: linear-gradient(180deg, #f7fbf8 0%, #f5f7fa 100%);
+  color: var(--text-main);
+}
+
+a {
+  text-decoration: none;
+}
+
+.page-container {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.card-panel {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(31, 41, 55, 0.06);
+}
+
+.section-title {
+  margin: 0 0 20px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.empty-text {
+  color: var(--text-sub);
+  text-align: center;
+  padding: 40px 0;
+}

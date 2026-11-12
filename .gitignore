@@ -1,0 +1,22 @@
+# Maven / Java 构建产物
+target/
+*.class
+
+# 前端依赖与构建产物
+frontend/node_modules/
+frontend/dist/
+
+# 运行时用户上传
+uploads/
+
+# IDE / 本地配置
+.idea/
+.vscode/
+*.iml
+.claude/settings.local.json
+
+# 日志与系统文件
+*.log
+logs/
+.DS_Store
+Thumbs.db

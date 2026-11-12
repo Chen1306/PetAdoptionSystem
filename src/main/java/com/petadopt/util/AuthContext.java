@@ -6,6 +6,10 @@ import com.petadopt.vo.LoginUser;
 
 import javax.servlet.http.HttpServletRequest;
 
+/*
+从请求中读取登陆用户
+*/
+
 public final class AuthContext {
 
     private static final String ATTRIBUTE_LOGIN_USER = "loginUser";

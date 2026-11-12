@@ -1,30 +1,42 @@
 <template>
   <div>
     <app-header />
-    <section class="hero">
-      <div class="page-container hero-inner">
-        <div>
-          <div class="hero-kicker">救助 · 领养 · 陪伴</div>
-          <h1>为每一只等待家的动物，找到认真生活的人</h1>
-          <p>浏览已通过审核的宠物信息，提交领养申请，跟进审核进度。</p>
-        </div>
-      </div>
-    </section>
     <main class="page-container main-area">
-      <div class="filter-bar card-panel">
-        <el-input v-model="query.keyword" placeholder="搜索宠物名称或描述" clearable />
-        <el-select v-model="query.type" placeholder="宠物类型" clearable>
-          <el-option label="猫" value="cat" />
-          <el-option label="狗" value="dog" />
-          <el-option label="其他" value="other" />
-        </el-select>
-        <el-button type="primary" @click="fetchPets">查询</el-button>
-        <el-button @click="reset">重置</el-button>
+      <div class="filter-bar">
+        <div class="filter-tabs">
+          <span
+            class="filter-tab"
+            :class="{ active: !query.type }"
+            @click="setType('')"
+          >全部</span>
+          <span
+            class="filter-tab"
+            :class="{ active: query.type === 'cat' }"
+            @click="setType('cat')"
+          >猫</span>
+          <span
+            class="filter-tab"
+            :class="{ active: query.type === 'dog' }"
+            @click="setType('dog')"
+          >狗</span>
+          <span
+            class="filter-tab"
+            :class="{ active: query.type === 'other' }"
+            @click="setType('other')"
+          >其他</span>
+        </div>
+        <div class="filter-info">
+          <span class="result-count">共 {{ pets.length }} 只宠物等待领养</span>
+          <el-button class="reset-btn" @click="reset">显示全部</el-button>
+        </div>
       </div>
       <div v-loading="loading" class="pet-grid">
         <pet-card v-for="pet in pets" :key="pet.id" :pet="pet" />
       </div>
-      <div v-if="!loading && !pets.length" class="empty-text">暂时没有符合条件的宠物信息</div>
+      <div v-if="!loading && !pets.length" class="empty-text">
+        <div class="empty-icon">🐾</div>
+        <p>暂时没有符合条件的宠物信息</p>
+      </div>
     </main>
   </div>
 </template>
@@ -48,7 +60,15 @@ export default {
     }
   },
   created() {
+    this.query.keyword = this.$route.query.keyword || ''
+    this.query.type = this.$route.query.type || ''
     this.fetchPets()
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.query.keyword = to.query.keyword || ''
+    this.query.type = to.query.type || ''
+    this.fetchPets()
+    next()
   },
   methods: {
     async fetchPets() {
@@ -59,9 +79,15 @@ export default {
         this.loading = false
       }
     },
+    setType(type) {
+      if (this.query.type === type) return
+      this.query.type = type
+      this.fetchPets()
+    },
     reset() {
       this.query.keyword = ''
       this.query.type = ''
+      this.$router.replace({ query: {} })
       this.fetchPets()
     }
   }
@@ -69,51 +95,77 @@ export default {
 </script>
 
 <style scoped>
-.hero {
-  padding: 52px 0 24px;
-}
-
-.hero-inner {
-  background: linear-gradient(135deg, rgba(47, 133, 90, 0.94), rgba(116, 171, 115, 0.92));
-  color: #fff;
-  border-radius: 24px;
-  padding: 48px;
-}
-
-.hero-kicker {
-  font-size: 14px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  opacity: 0.85;
-}
-
-.hero h1 {
-  margin: 12px 0 18px;
-  font-size: clamp(34px, 5vw, 54px);
-  line-height: 1.15;
-}
-
-.hero p {
-  max-width: 640px;
-  font-size: 17px;
-  line-height: 1.8;
-}
-
 .main-area {
-  padding: 20px 0 40px;
+  padding: 16px 0 40px;
 }
 
 .filter-bar {
-  display: grid;
-  grid-template-columns: 1.7fr 1fr auto auto;
-  gap: 14px;
-  padding: 20px;
-  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-radius: 4px;
+  padding: 12px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 0;
+}
+
+.filter-tab {
+  padding: 6px 16px;
+  font-size: 13px;
+  color: #666;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.filter-tab:hover {
+  color: var(--brand-primary);
+  background: var(--brand-light);
+}
+
+.filter-tab.active {
+  color: #fff;
+  background: var(--brand-gradient);
+  font-weight: 600;
+}
+
+.filter-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.result-count {
+  font-size: 13px;
+  color: var(--text-sub);
+}
+
+.reset-btn {
+  font-size: 12px;
+  padding: 5px 12px;
 }
 
 .pet-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.empty-text p {
+  color: var(--text-sub);
+  font-size: 14px;
 }
 </style>

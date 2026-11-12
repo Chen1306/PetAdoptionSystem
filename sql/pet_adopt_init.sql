@@ -11,7 +11,6 @@ COLLATE utf8mb4_general_ci;
 
 USE `db_pet_manage_adopt`;
 
-DROP TABLE IF EXISTS `operation_logs`;
 DROP TABLE IF EXISTS `adopt_records`;
 DROP TABLE IF EXISTS `pets`;
 DROP TABLE IF EXISTS `users`;
@@ -76,27 +75,10 @@ CREATE TABLE `adopt_records` (
     CONSTRAINT `fk_adopt_audited_by` FOREIGN KEY (`audited_by`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='adoption records table';
 
-CREATE TABLE `operation_logs` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'log id',
-    `operator_id` BIGINT DEFAULT NULL COMMENT 'operator id',
-    `operator_role` VARCHAR(20) DEFAULT NULL COMMENT 'operator role',
-    `module` VARCHAR(50) NOT NULL COMMENT 'module',
-    `action` VARCHAR(50) NOT NULL COMMENT 'action',
-    `target_id` BIGINT DEFAULT NULL COMMENT 'target id',
-    `content` VARCHAR(500) DEFAULT NULL COMMENT 'content',
-    `ip` VARCHAR(50) DEFAULT NULL COMMENT 'request ip',
-    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
-    PRIMARY KEY (`id`),
-    KEY `idx_logs_operator_id` (`operator_id`),
-    KEY `idx_logs_module` (`module`),
-    KEY `idx_logs_action` (`action`),
-    CONSTRAINT `fk_logs_operator` FOREIGN KEY (`operator_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='operation logs table';
-
 INSERT INTO `users` (`id`, `username`, `password`, `phone`, `role`, `status`) VALUES
-(1, 'admin', 'admin123', '13800000000', 'admin', 'ENABLED'),
-(2, 'user01', '123456', '13900000001', 'user', 'ENABLED'),
-(3, 'user02', '123456', '13900000002', 'user', 'DISABLED');
+(1, 'admin', '0192023a7bbd73250516f069df18b500', '13800000000', 'admin', 'ENABLED'),
+(2, 'user01', 'e10adc3949ba59abbe56e057f20f883e', '13900000001', 'user', 'ENABLED'),
+(3, 'user02', 'e10adc3949ba59abbe56e057f20f883e', '13900000002', 'user', 'DISABLED');
 
 INSERT INTO `pets` (`id`, `pet_name`, `type`, `age`, `gender`, `image_url`, `description`, `review_status`, `adopt_status`, `reviewer_id`, `review_remark`, `reviewed_at`) VALUES
 (1, 'XiaoBai', 'dog', 2, 'male', '/images/pets/xiaobai.jpg', 'Friendly dog with basic medical check completed.', 'APPROVED', 'AVAILABLE', 1, 'Approved for display', NOW()),
@@ -105,9 +87,5 @@ INSERT INTO `pets` (`id`, `pet_name`, `type`, `age`, `gender`, `image_url`, `des
 
 INSERT INTO `adopt_records` (`id`, `user_id`, `pet_id`, `apply_description`, `status`, `audit_remark`, `audited_by`, `audited_at`) VALUES
 (1, 2, 1, 'I have a stable home and can take long-term care of this pet.', 'WAITING', NULL, NULL, NULL);
-
-INSERT INTO `operation_logs` (`id`, `operator_id`, `operator_role`, `module`, `action`, `target_id`, `content`, `ip`) VALUES
-(1, 1, 'admin', 'user', 'LOGIN', 1, 'Admin logged into the system', '127.0.0.1'),
-(2, 1, 'admin', 'pet', 'REVIEW', 1, 'Pet profile approved', '127.0.0.1');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -8,6 +8,7 @@ import com.petadopt.entity.User;
 import com.petadopt.mapper.UserMapper;
 import com.petadopt.service.AuthService;
 import com.petadopt.service.TokenService;
+import com.petadopt.util.PasswordUtil;
 import com.petadopt.vo.LoginResponse;
 import com.petadopt.vo.LoginUser;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,12 @@ public class AuthServiceImpl implements AuthService {
         if (userMapper.findByUsername(request.getUsername()) != null) {
             throw new BusinessException(ResultCode.BAD_REQUEST, "username already exists");
         }
+        if (userMapper.findByPhone(request.getPhone()) != null) {
+            throw new BusinessException(ResultCode.BAD_REQUEST, "phone already exists");
+        }
         User user = new User();
         user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
+        user.setPassword(PasswordUtil.md5(request.getPassword()));
         user.setPhone(request.getPhone());
         user.setRole("user");
         user.setStatus("ENABLED");
@@ -42,7 +46,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponse login(LoginRequest request) {
         User user = userMapper.findByUsername(request.getUsername());
-        if (user == null || !StringUtils.hasText(user.getPassword()) || !user.getPassword().equals(request.getPassword())) {
+        if (user == null || !StringUtils.hasText(user.getPassword())
+                || !user.getPassword().equals(PasswordUtil.md5(request.getPassword()))) {
             throw new BusinessException(ResultCode.BAD_REQUEST, "username or password is incorrect");
         }
         if ("DISABLED".equalsIgnoreCase(user.getStatus())) {

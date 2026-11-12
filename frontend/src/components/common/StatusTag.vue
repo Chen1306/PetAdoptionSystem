@@ -1,5 +1,5 @@
 <template>
-  <el-tag :type="tagType" effect="light">{{ text }}</el-tag>
+  <span class="status-tag" :class="tagClass">{{ text }}</span>
 </template>
 
 <script>
@@ -12,18 +12,18 @@ export default {
     }
   },
   computed: {
-    tagType() {
+    tagClass() {
       const map = {
-        WAITING: 'warning',
-        PASSED: 'success',
-        REJECTED: 'danger',
-        CANCELED: 'info',
-        APPROVED: 'success',
-        PENDING: 'warning',
-        AVAILABLE: 'success',
-        ADOPTED: 'info',
-        ENABLED: 'success',
-        DISABLED: 'danger'
+        WAITING: 'tag-waiting',
+        PASSED: 'tag-passed',
+        REJECTED: 'tag-rejected',
+        CANCELED: 'tag-canceled',
+        APPROVED: 'tag-passed',
+        PENDING: 'tag-waiting',
+        AVAILABLE: 'tag-available',
+        ADOPTED: 'tag-adopted',
+        ENABLED: 'tag-passed',
+        DISABLED: 'tag-rejected'
       }
       return map[this.value] || ''
     },
@@ -45,3 +45,50 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.status-tag {
+  display: inline-block;
+  padding: 2px 12px;
+  font-size: 12px;
+  border-radius: 2px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.tag-waiting {
+  background: #FFF7E6;
+  color: #FF6A00;
+  border: 1px solid #FFD9B3;
+}
+
+.tag-passed {
+  background: #F0FFF0;
+  color: #00A000;
+  border: 1px solid #B3FFB3;
+}
+
+.tag-rejected {
+  background: #FFF0F0;
+  color: #FF0036;
+  border: 1px solid #FFB3B3;
+}
+
+.tag-canceled {
+  background: #F5F5F5;
+  color: #999;
+  border: 1px solid #E0E0E0;
+}
+
+.tag-available {
+  background: var(--brand-light);
+  color: var(--brand-primary);
+  border: 1px solid #FFCCB3;
+}
+
+.tag-adopted {
+  background: #F5F5F5;
+  color: #999;
+  border: 1px solid #E0E0E0;
+}
+</style>

@@ -1,25 +1,31 @@
 <template>
   <div class="auth-page">
-    <div class="auth-card card-panel">
+    <div class="auth-card">
       <div class="auth-side">
-        <h1>让领养更透明</h1>
-        <p>连接救助与陪伴，让每一只流浪动物被认真看见。</p>
+        <div class="side-content">
+          <div class="side-logo">宠</div>
+          <h1>宠物领养平台</h1>
+          <p>为每一只等待家的动物，找到认真生活的人</p>
+        </div>
       </div>
-      <div class="auth-form">
-        <h2>账号登录</h2>
-        <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="form.username" placeholder="请输入用户名" />
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="form.password" type="password" placeholder="请输入密码" show-password />
-          </el-form-item>
-          <el-button type="primary" class="full-btn" :loading="loading" @click="submit">登录</el-button>
-          <div class="auth-footer">
-            没有账号？
-            <router-link to="/register">去注册</router-link>
-          </div>
-        </el-form>
+      <div class="auth-form-wrap">
+        <div class="auth-form">
+          <h2>账号登录</h2>
+          <p class="form-subtitle">欢迎回来，请登录你的账号</p>
+          <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
+            <el-form-item label="用户名" prop="username">
+              <el-input v-model="form.username" placeholder="请输入用户名" prefix-icon="el-icon-user" />
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <el-input v-model="form.password" type="password" placeholder="请输入密码" show-password prefix-icon="el-icon-lock" />
+            </el-form-item>
+            <el-button class="submit-btn" :loading="loading" @click="submit">登录</el-button>
+            <div class="auth-footer">
+              没有账号？
+              <router-link to="/register">立即注册</router-link>
+            </div>
+          </el-form>
+        </div>
       </div>
     </div>
   </div>
@@ -54,6 +60,8 @@ export default {
           setAuth(data)
           this.$message.success('登录成功')
           this.$router.push(data.role === 'admin' ? '/admin' : '/pets')
+        } catch {
+          // error message already shown by interceptor
         } finally {
           this.loading = false
         }
@@ -70,46 +78,106 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 24px;
+  background: var(--page-bg);
 }
 
 .auth-card {
-  width: min(980px, 100%);
+  width: min(880px, 100%);
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: #fff;
 }
 
 .auth-side {
-  padding: 56px;
-  background: linear-gradient(135deg, #2f855a 0%, #6ca86d 100%);
+  background: var(--brand-gradient);
   color: #fff;
-}
-
-.auth-side h1 {
-  font-size: 42px;
-  margin: 0 0 20px;
-}
-
-.auth-side p {
-  font-size: 18px;
-  line-height: 1.8;
-}
-
-.auth-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 48px;
 }
 
-.auth-form h2 {
-  margin: 0 0 24px;
+.side-content {
+  text-align: center;
 }
 
-.full-btn {
+.side-logo {
+  width: 72px;
+  height: 72px;
+  background: #fff;
+  color: var(--brand-primary);
+  border-radius: 50%;
+  font-size: 36px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.side-content h1 {
+  font-size: 32px;
+  margin: 0 0 16px;
+  font-weight: 700;
+}
+
+.side-content p {
+  font-size: 15px;
+  line-height: 1.8;
+  opacity: 0.85;
+  margin: 0;
+}
+
+.auth-form-wrap {
+  padding: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.auth-form {
   width: 100%;
-  margin-top: 10px;
+}
+
+.auth-form h2 {
+  margin: 0 0 4px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.form-subtitle {
+  margin: 0 0 28px;
+  color: var(--text-sub);
+  font-size: 14px;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 44px;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  background: var(--brand-gradient) !important;
+  color: #fff !important;
+  border-radius: 22px;
+  margin-top: 6px;
+}
+
+.submit-btn:hover {
+  opacity: 0.9;
 }
 
 .auth-footer {
-  margin-top: 18px;
+  margin-top: 20px;
+  text-align: center;
   color: var(--text-sub);
+  font-size: 13px;
+}
+
+.auth-footer a {
+  color: var(--brand-primary);
+  font-weight: 600;
 }
 </style>

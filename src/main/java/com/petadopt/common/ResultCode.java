@@ -1,7 +1,7 @@
 package com.petadopt.common;
 
 public final class ResultCode {
-
+    /*状态码表 */
     public static final int SUCCESS = 200;
     public static final int BAD_REQUEST = 400;
     public static final int UNAUTHORIZED = 401;

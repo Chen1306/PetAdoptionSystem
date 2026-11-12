@@ -45,4 +45,7 @@ public interface AdoptRecordMapper {
 
     @Select("SELECT COUNT(1) FROM adopt_records WHERE status = 'WAITING'")
     Long countWaiting();
+
+    @Select("SELECT COUNT(1) FROM adopt_records WHERE pet_id = #{petId}")
+    Long countByPetId(@Param("petId") Long petId);
 }

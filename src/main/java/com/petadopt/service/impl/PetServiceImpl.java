@@ -4,6 +4,7 @@ import com.petadopt.common.BusinessException;
 import com.petadopt.common.ResultCode;
 import com.petadopt.dto.PetReviewRequest;
 import com.petadopt.entity.Pet;
+import com.petadopt.mapper.AdoptRecordMapper;
 import com.petadopt.mapper.PetMapper;
 import com.petadopt.service.PetService;
 import com.petadopt.vo.LoginUser;
@@ -17,9 +18,11 @@ import java.util.List;
 public class PetServiceImpl implements PetService {
 
     private final PetMapper petMapper;
+    private final AdoptRecordMapper adoptRecordMapper;
 
-    public PetServiceImpl(PetMapper petMapper) {
+    public PetServiceImpl(PetMapper petMapper, AdoptRecordMapper adoptRecordMapper) {
         this.petMapper = petMapper;
+        this.adoptRecordMapper = adoptRecordMapper;
     }
 
     @Override
@@ -62,6 +65,10 @@ public class PetServiceImpl implements PetService {
     @Override
     public void deletePet(Long id) {
         ensureExists(id);
+        long count = adoptRecordMapper.countByPetId(id);
+        if (count > 0) {
+            throw new BusinessException(ResultCode.BAD_REQUEST, "该宠物有 " + count + " 条领养记录，无法删除");
+        }
         petMapper.deleteById(id);
     }
 

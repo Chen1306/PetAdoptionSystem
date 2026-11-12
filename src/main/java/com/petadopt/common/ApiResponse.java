@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/*统一返回格式 */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

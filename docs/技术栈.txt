@@ -1,5 +1,5 @@
 流浪动物管理及领养系统 —— 完整技术栈
-我给你整理最常用、最容易写进课程设计 / 毕设、最容易开发、最不容易出问题的标准技术栈，直接复制到文档里就行，老师看了也非常认可。
+
 一、前端技术栈（用户端 + 管理端）
 Vue2 / Vue3 —— 主流前端框架
 Element UI —— 页面组件（按钮、表格、表单）
@@ -9,7 +9,6 @@ Node.js —— 前端运行环境
 二、后端技术栈（核心业务）
 Spring Boot —— 后端主框架（最常用、最简单）
 Spring MVC —— 接口控制层
-Spring Security —— 登录、权限控制
 MyBatis / MyBatis-Plus —— 数据库操作
 Maven —— 项目依赖管理
 三、数据库技术
@@ -17,15 +16,14 @@ MySQL 8.0 —— 主数据库
 Navicat / SQLyog —— 数据库可视化工具
 四、服务器与部署
 Tomcat —— 内置（Spring Boot 自带）
-JDK 1.8 / JDK 11 —— Java 运行环境
+Java 17 —— Java 运行环境
 五、开发工具
 IDE：IntelliJ IDEA（后端）、VS Code（前端）
-接口测试：Postman
-版本管理：Git（可选）
+版本管理：Git
 可直接写进文档的标准格式
 系统技术栈
 前端：Vue2 + Element UI + Axios + HTML + CSS + JavaScript
 后端：Spring Boot + Spring MVC + MyBatis-Plus
 数据库：MySQL 8.0
-开发工具：IDEA、VS Code、Navicat
-运行环境：JDK 1.8、Maven、Node.js
+开发工具：IDEA、VS Code(Trae)、Navicat
+运行环境：Java 17、Maven、Node.js

@@ -6,7 +6,9 @@ import com.petadopt.dto.ProfileUpdateRequest;
 import com.petadopt.entity.User;
 import com.petadopt.mapper.UserMapper;
 import com.petadopt.service.UserService;
+import com.petadopt.util.PasswordUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -42,7 +44,9 @@ public class UserServiceImpl implements UserService {
         user.setId(userId);
         user.setUsername(request.getUsername());
         user.setPhone(request.getPhone());
-        user.setPassword(request.getPassword());
+        if (StringUtils.hasText(request.getPassword())) {
+            user.setPassword(PasswordUtil.md5(request.getPassword()));
+        }
         userMapper.updateProfile(user);
     }
 

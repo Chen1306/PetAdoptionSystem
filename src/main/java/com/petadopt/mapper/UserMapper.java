@@ -20,6 +20,9 @@ public interface UserMapper {
     @Select("SELECT * FROM users WHERE username = #{username} LIMIT 1")
     User findByUsername(@Param("username") String username);
 
+    @Select("SELECT * FROM users WHERE phone = #{phone} LIMIT 1")
+    User findByPhone(@Param("phone") String phone);
+
     @Select("SELECT * FROM users WHERE id = #{id} LIMIT 1")
     User findById(@Param("id") Long id);
 

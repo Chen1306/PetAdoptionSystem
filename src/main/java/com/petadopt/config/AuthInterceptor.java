@@ -12,7 +12,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-
+/*
+认证拦截器：校验token,把用户放到request里面
+*/
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
 
@@ -32,6 +34,10 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        // OPTIONS preflight has no auth header, let CORS handler process it
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
         String uri = request.getRequestURI();
         if (isExcluded(request.getMethod(), uri)) {
             return true;
